@@ -1,0 +1,3 @@
+batch_size: 32  # Number of samples processed in one forward/backward pass during training.
+lr: 0.001       # Learning rate, controlling the step size of the optimizer.
+epochs: 120     # Total number of times the entire training dataset is passed through.
