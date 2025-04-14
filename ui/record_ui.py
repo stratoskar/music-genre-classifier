@@ -1,81 +1,45 @@
+# Imports the Streamlit library for creating interactive web applications.
 import streamlit as st
+# Imports the SoundFile library for reading and writing audio files.
 import soundfile as sf
+# Imports the tempfile module for creating temporary files.
 import tempfile
+import predict as pr
 import torch.nn as nn
 import torch
 import os
 import librosa
 import numpy as np
 
-def extract_features(file_path):
-    y, sr = librosa.load(file_path, sr=None)
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-    mfcc_mean = np.mean(mfcc.T, axis=0)
-    return mfcc_mean
 
-
-class GenreClassifier(nn.Module):
-    def __init__(self, input_size, num_classes=10):
-        super().__init__()
-        self.classifier = nn.Sequential(
-            nn.Linear(input_size, 512),
-            nn.BatchNorm1d(512),
-            nn.ReLU(),
-            nn.Dropout(0.4),
-
-            nn.Linear(512, 256),
-            nn.BatchNorm1d(256),
-            nn.ReLU(),
-            nn.Dropout(0.3),
-
-            nn.Linear(256, 128),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-
-            nn.Linear(128, num_classes)  # final output (logits)
-        )
-
-    def forward(self, x):
-        return self.classifier(x)
-
-GENRES = ['blues', 'classical', 'country', 'disco', 'hiphop',
-          'jazz', 'metal', 'pop', 'reggae', 'rock']
-
-def predict_genre(file_path):
-    features = extract_features(file_path)
-    model = GenreClassifier(input_size=len(features), num_classes=10)
-    model.load_state_dict(torch.load("model/model.pth"))
-    model.eval()
-
-    with torch.no_grad():
-        x = torch.tensor(features, dtype=torch.float32).unsqueeze(0)
-        predictions = model(x)
-        predicted_idx = predictions.argmax().item()
-
-    return GENRES[predicted_idx]
-
-
+# Set the page configuration for the Streamlit app.
 st.set_page_config(page_title="Music Genre Classifier 🎵", layout="centered")
+# Set the title of the Streamlit application.
 st.title("🎤 Record Your Music and Predict the Genre")
 
-# Create a recording UI
+# Create a section in the UI for recording or uploading audio.
 st.markdown("### Step 1: Record Audio or Upload File")
 
+# Create a file uploader widget that accepts WAV files.
 audio_file = st.file_uploader("Upload a WAV file", type=["wav"])
 
-# Placeholder for prediction result
+# Placeholder variable to store the prediction result.
 prediction = None
 
+# Check if an audio file has been uploaded.
 if audio_file:
+    # Create a temporary file to store the uploaded audio data.
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
+        # Write the content of the uploaded audio file to the temporary file.
         tmp.write(audio_file.read())
+        # Get the name (path) of the temporary file.
         tmp_path = tmp.name
+        # Display an audio player in the Streamlit app for the uploaded audio.
         st.audio(tmp_path, format="audio/wav")
-        
-        # Predict genre
-        if st.button("🎧 Predict Genre"):
-            prediction = predict_genre(tmp_path)
-            st.success(f"🎶 Predicted Genre: **{prediction}**")
 
-st.markdown("---")
-st.markdown("Built with ❤️ to learn Deep Learning.")
+        # Create a button in the Streamlit app to trigger genre prediction.
+        if st.button("🎧 Predict Genre"):
+            # Call the predict_genre function with the path to the uploaded audio file.
+            prediction = pr.predict_genre(tmp_path)
+            # Display the predicted genre in a success message.
+            st.success(f"🎶 Predicted Genre: **{prediction}**")
