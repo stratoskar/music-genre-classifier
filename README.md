@@ -3,12 +3,11 @@
 
 ## 📌 Repository Description
 
-This repository contains a complete machine learning pipeline for **Music Genre Classification**, from live audio recording or file upload to genre prediction using a deep neural network trained on extracted audio features.
+This repository contains a complete machine learning pipeline for **Music Genre Classification**, from file upload to genre prediction using a deep neural network trained on extracted audio features.
 
 Developed with **PyTorch**, integrated with **Weights & Biases** for experiment tracking, and built around a modular project structure for clarity and extendability.
 
-> The project has been crafted as a learning experience in deep learning, data pipelines, and model deployment — all assisted and co-developed with **ChatGPT**. It is ideal for those who are beginning their journey in AI and music data analysis.
-
+> The project has been crafted as a learning experience in deep learning, data pipelines, and model deployment — all assisted and co-developed with **ChatGPT**. 
 ---
 
 ## 🧠 Project Overview
@@ -16,7 +15,7 @@ Developed with **PyTorch**, integrated with **Weights & Biases** for experiment 
 **Goal**: Predict the genre of a music clip (e.g., Classical, Rock, Pop, Jazz, Country, etc.) using a deep learning model trained on a preprocessed dataset of audio features.
 
 **Core Features:**
-- Live recording or song upload via a Streamlit interface.
+- Song upload via a Streamlit interface.
 - Feature extraction using `librosa` and custom signal processing.
 - A PyTorch-based classifier architecture.
 - Configurable training using `config.yaml`.
@@ -88,8 +87,6 @@ python model/train.py
 streamlit run ui/streamlit_app.py
 ```
 
-You can either record live audio or upload an existing file for genre prediction.
-
 ---
 
 ## 🧪 Deep Learning Technologies Used
@@ -107,52 +104,14 @@ The model architecture includes:
 - Dropout for regularization
 - CrossEntropy loss for multi-class classification
 - Adam optimizer
-
----
-
-## 📁 Project Structure
-
-```
-music-genre-classifier/
-│
-├── data/
-│   ├── raw/               # Place GTZAN dataset here
-│   └── processed/         # Saved features and labels (npz)
-│
-├── model/
-│   ├── train.py           # Model architecture and training script
-│   └── predict.py         # Inference functions
-│
-├── utils/
-│   └── audio_utils.py     # Feature extraction utilities
-│
-├── ui/
-│   ├── record_ui.py       # Optional CLI-based recorder
-│   └── streamlit_app.py   # Streamlit user interface
-│
-├── config/
-│   └── config.yaml        # Configurable parameters (batch size, lr, epochs, etc.)
-│
-└── requirements.txt       # Project dependencies
-```
-
 ---
 
 ## 👤 Author
 
 **Efstratios Karkanis**  
-Email: [stratoskarkanis2@gmail.com](mailto:stratoskarkanis2@gmail.com)  
-Field: Deep Learning | Signal Processing | Music AI
+Email: [stratoskarkanis2@gmail.com](mailto:stratoskarkanis2@gmail.com)
 
 This project was developed with the assistance of **ChatGPT** for educational purposes, aiming to demystify deep learning for curious minds.
-
----
-
-## 🚀 Stay Curious!
-
-> “The important thing is not to stop questioning. Curiosity has its own reason for existing.” — Albert Einstein
-
-Feel free to fork, star, or contribute to this project. Let’s learn and build together! 🎧
 
 ---
 
